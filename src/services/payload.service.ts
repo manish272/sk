@@ -8,7 +8,7 @@ export class GeneratePayload {
     const songPayload = {
       id: song.id,
       song: song.song,
-      album: {name:song.album},
+      album:song.album,
       year: song.year,
       releaseDate: song.release_date,
       duration: song.duration,
