@@ -5,11 +5,7 @@ type IdentifierType = 'song' | 'album'
 export class Utils {
   // create download links for different bitrates
   public static createDownloadLinks = (link: string) => {
-    if (!link) return false
-    
-      
-    
-    return 
+         
        ({
         
         link: link.replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p', '_160'),
