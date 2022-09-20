@@ -1,144 +1,102 @@
-import { SearchService } from '../services/search.service'
-import { globalConstants } from '../constants'
-import { AlbumService } from '../services/albums.service'
-import { SongService } from '../services/song.service'
-import { MiscellaneousService } from '../services/misc.service'
-import { PlaylistService } from '../services/playlist.service'
 import { Utils } from '../utils'
-import type { RequestHandler } from 'express'
+import type { Song, SongSearch } from '../interfaces/song'
+import type { Album, AlbumSearch } from '../interfaces/album'
+import type { Playlist } from '../interfaces/playlist'
 
-export class Controller {
-  // get homepage data
-  public static homeData: RequestHandler = async (_req, res, next) => {
-    try {
-      const homeData = await MiscellaneousService.home()
-
-      res.json({ status: globalConstants.status.success, results: homeData })
-    } catch (error) {
-      next(error)
+export class GeneratePayload {
+  public static songPayload = (song: Song) => {
+    const songPayload = {
+      id: song.id,
+      name: song.song,
+      album: { id: song.albumid, name: song.album, url: song.album_url },
+      year: song.year,
+      releaseDate: song.release_date,
+      duration: song.duration,
+      label: song.label,
+      primaryArtists: song.primary_artists,
+      primaryArtistsId: song.primary_artists_id,
+      explicitContent: song.explicit_content,
+      playCount: song.play_count,
+      language: song.language,
+      hasLyrics: song.has_lyrics,
+      artist: song.primary_artists,
+      image: Utils.createImageLinks(song.image),
+      url: song.perma_url,
+      copyright: song.copyright_text,
+      downloadUrl: Utils.createDownloadLinks(song.media_preview_url),
     }
+    return songPayload
   }
 
-  // search everything i.e songs, artists, albums, etc
-  public static searchAll: RequestHandler = async (req, res, next) => {
-    try {
-      const { query } = req.query
+  public static songSearchPayload = (songs: SongSearch) => {
+    const payload = [] as unknown[]
 
-      const allSearchResults = await SearchService.searchAll(query as string)
+    songs.results.forEach((song: Song) => {
+      payload.push(GeneratePayload.songPayload(song))
+    })
 
-      res.json({ status: globalConstants.status.success, results: allSearchResults })
-    } catch (error) {
-      next(error)
-    }
+    return payload
   }
 
-  // search songs (includes download links)
-  public static searchSongs: RequestHandler = async (req, res, next) => {
-    try {
-      const { query, page, limit } = req.query
+  public static albumPayload = (album: Album) => {
+    const songsArray = [] as Song[]
 
-      const songSearchResults = await SearchService.searchSongs(query as string, page as string, limit as string)
-
-      res.json({ status: globalConstants.status.success, results: songSearchResults })
-    } catch (error) {
-      next(error)
+    const albumPayload = {
+      id: album?.albumid || album?.id,
+      name: album.title,
+      year: album.year,
+      playCount: album.play_count,
+      language: album.language,
+      explicitContent: album.explicit_content,
+      songCount: album?.more_info?.song_count || album?.songs?.length,
+      primaryArtist: album.primary_artists || album.more_info?.artistMap?.primary_artists[0]?.name,
+      image: Utils.createImageLinks(album.image),
+      url: album.perma_url,
+      songs: [] as Song[],
     }
+
+    // if album details contain song list
+    if (album.songs) {
+      album.songs.forEach((song: Song) => songsArray.push(GeneratePayload.songPayload(song) as never))
+      albumPayload.songs = songsArray
+    }
+
+    return albumPayload
   }
 
-  // search albums only
-  public static searchAlbums: RequestHandler = async (req, res, next) => {
-    try {
-      const { query, page, limit } = req.query
+  public static albumSearchPayload = (albums: AlbumSearch) => {
+    const payload = [] as unknown[]
 
-      const albumSearchResults = await SearchService.searchAlbums(query as string, page as string, limit as string)
+    albums.results.forEach((album: Album) => {
+      payload.push(GeneratePayload.albumPayload(album))
+    })
 
-      res.json({ status: globalConstants.status.success, results: albumSearchResults })
-    } catch (error) {
-      next(error)
-    }
+    return payload
   }
 
-  // get top charts
-  public static charts: RequestHandler = async (_req, res, next) => {
-    try {
-      const charts = await MiscellaneousService.charts()
+  public static playlistPayload = (playlist: Playlist) => {
+    const songsArray = [] as Song[]
 
-      res.json({ status: globalConstants.status.success, results: charts })
-    } catch (error) {
-      next(error)
+    const playlistPayload = {
+      id: playlist.listid,
+      name: playlist.listname,
+      followerCount: playlist.follower_count,
+      songCount: playlist.list_count || playlist?.songs?.length,
+      fanCount: playlist.fan_count,
+      username: playlist.username,
+      firstname: playlist.firstname,
+      lastname: playlist.lastname,
+      image: Utils.createImageLinks(playlist.image),
+      url: playlist.perma_url,
+      songs: [] as Song[],
     }
-  }
 
-  // get trending media
-  public static trending: RequestHandler = async (_req, res, next) => {
-    try {
-      const trending = await MiscellaneousService.trending()
-
-      res.json({ status: globalConstants.status.success, results: trending })
-    } catch (error) {
-      next(error)
+    // if playlist details contain song list
+    if (playlist.songs) {
+      playlist.songs.forEach((song: Song) => songsArray.push(GeneratePayload.songPayload(song) as never))
+      playlistPayload.songs = songsArray
     }
-  }
 
-  // get playlists / playlist details
-  public static playlists: RequestHandler = async (req, res, next) => {
-    try {
-      const { id } = req.query
-
-      // if id query exists get playlist details
-      if (id) {
-        const playlistDetails = await PlaylistService.playlistDetails(id as string)
-
-        res.json({ status: globalConstants.status.success, results: playlistDetails })
-      } else {
-        const { language } = req.query
-
-        // set default playlist language to english
-        const playlists = await PlaylistService.playlists((language as string) || 'english')
-
-        res.json({ status: globalConstants.status.success, results: playlists })
-      }
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  // get album details
-  public static albumDetails: RequestHandler = async (req, res, next) => {
-    try {
-      const identifier = Utils.createIdentifier(req, 'album')
-
-      const albumDetails = await AlbumService.albumDetails(identifier)
-
-      res.json({ status: globalConstants.status.success, results: albumDetails })
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  // get song details
-  public static songDetails: RequestHandler = async (req, res, next) => {
-    try {
-      const identifier = Utils.createIdentifier(req, 'song')
-
-      const songDetails = await SongService.songDetails(identifier)
-
-      res.json
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  // get lyrics
-  public static lyrics: RequestHandler = async (req, res, next) => {
-    try {
-      const { id } = req.query
-
-      const songLyrics = await MiscellaneousService.lyrics(id as string)
-
-      res.json({ status: globalConstants.status.success, results: songLyrics })
-    } catch (error) {
-      next(error)
-    }
+    return playlistPayload
   }
 }
