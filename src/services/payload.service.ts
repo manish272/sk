@@ -25,7 +25,7 @@ export class GeneratePayload {
       copyright: song.copyright_text,
       downloadUrl: Utils.createDownloadLinks(song.media_preview_url),
     //}
-    return songPayload
+    //return songPayload
   }
 
   public static songSearchPayload = (songs: SongSearch) => {
