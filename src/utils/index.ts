@@ -17,7 +17,7 @@ export class Utils {
     return (
       ( 
        link.replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p', '_160'),
-       || false
+      ) || false
     )
   }
 
