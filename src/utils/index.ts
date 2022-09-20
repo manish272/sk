@@ -12,7 +12,7 @@ export class Utils {
       ]
 
     return (
-      qualities.map((quality) => 
+      qualities((quality) => 
         
         link: link.replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p', '_160'),
       ) || false
