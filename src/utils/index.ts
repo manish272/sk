@@ -7,13 +7,15 @@ export class Utils {
   public static createDownloadLinks = (link: string) => {
     if (!link) return false
 
-    
+    const qualities = [
+      { id: '_160', bitrate: '160kbps' },
+      ]
 
     return (
-      
+      qualities.map((quality) => ({
         
-        link: link.replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p', '_160'),
-       || false
+        link: link.replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p', quality.id),
+      })) || false
     )
   }
 
