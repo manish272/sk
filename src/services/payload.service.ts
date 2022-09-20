@@ -23,7 +23,6 @@ export class GeneratePayload {
       image: Utils.createImageLinks(song.image),
       url: song.perma_url,
       copyright: song.copyright_text,
-      media_url: Utils.createDownloadLinks(song.media_preview_url).replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p', '_160'),
       downloadUrl: Utils.createDownloadLinks(song.media_preview_url),
     }
     return songPayload
