@@ -15,7 +15,7 @@ export class Utils {
     ]
 
     return (
-      qualities( => 
+      ( 
        link.replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p', '_160'),
       ) || false
     )
