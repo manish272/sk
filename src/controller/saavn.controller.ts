@@ -117,7 +117,17 @@ export class Controller {
   }
 
   // get song details
+  public static songDetails: RequestHandler = async (req, res, next) => {
+    try {
+      const identifier = Utils.createIdentifier(req, 'song')
 
+      const songDetails = await SongService.songDetails(identifier)
+
+      res.json({ status: globalConstants.status.success, results: songDetails })
+    } catch (error) {
+      next(error)
+    }
+  }
 
   // get lyrics
   public static lyrics: RequestHandler = async (req, res, next) => {
