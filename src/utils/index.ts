@@ -2,7 +2,7 @@ import type { Request } from 'express'
 
 type IdentifierType = 'song' | 'album'
 
-export class Utils {
+
   // create download links for different bitrates
   public static createDownloadLinks = (link: string) => {
     if (!link) return false
@@ -66,4 +66,4 @@ export class Utils {
     }
     return ''
   }
-}
+
