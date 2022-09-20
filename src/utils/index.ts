@@ -12,9 +12,10 @@ export class Utils {
       ]
 
     return (
-              
-       link.replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p', quality.id),
-      )) || false
+      qualities.map((quality) => ({
+        quality: quality.bitrate,
+        link: link.replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p', quality.id),
+      })) || false
     )
   }
 
