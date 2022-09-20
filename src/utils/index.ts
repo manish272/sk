@@ -4,7 +4,7 @@ type IdentifierType = 'song' | 'album'
 
 export class Utils {
   // create download links for different bitrates
-  public static createDownloadLinks = (link: string) => {
+  createDownloadLinks = (link: string) => {
     if (!link) return false
 
     const qualities = [
