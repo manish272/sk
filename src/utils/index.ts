@@ -11,12 +11,11 @@ export class Utils {
       { id: '_160', bitrate: '160kbps' },
       
 
-    return (
-      qualities.map((quality) => 
+    
         
         link: link.replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p', '_160'),
-      ) || false
-    )
+       || false
+    
   }
 
   // create image links for different resolutions
