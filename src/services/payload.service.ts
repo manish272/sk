@@ -4,8 +4,8 @@ import type { Album, AlbumSearch } from '../interfaces/album'
 import type { Playlist } from '../interfaces/playlist'
 
 export class GeneratePayload {
-  //public static songPayload = (song: Song) => {
-    const songPayload = {
+  public static songPayload = (song: Song) => {
+    //const songPayload = {
       id: song.id,
       name: song.song,
       album: { id: song.albumid, name: song.album, url: song.album_url },
@@ -24,9 +24,9 @@ export class GeneratePayload {
       url: song.perma_url,
       copyright: song.copyright_text,
       downloadUrl: Utils.createDownloadLinks(song.media_preview_url),
-    }
+    //}
     return songPayload
-  //}
+  }
 
   public static songSearchPayload = (songs: SongSearch) => {
     const payload = [] as unknown[]
