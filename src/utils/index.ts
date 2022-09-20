@@ -14,7 +14,7 @@ export class Utils {
     return (
       qualities.map((quality) => ({
         
-        link.replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p', quality.id),
+       link: link.replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p', quality.id),
       })) || false
     )
   }
