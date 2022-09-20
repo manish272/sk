@@ -9,8 +9,7 @@ export class Utils {
 
     const qualities = [
       { id: '_160', bitrate: '160kbps' },
-      { id: '_320', bitrate: '320kbps' },
-    ]
+      ]
 
     return (
       qualities.map((quality) => ({
