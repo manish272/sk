@@ -7,23 +7,23 @@ export class GeneratePayload {
   public static songPayload = (song: Song) => {
     const songPayload = {
       id: song.id,
-      name: song.song,
-      album: { id: song.albumid, name: song.album, url: song.album_url },
+      song: song.song,
+      album: song.album,
       year: song.year,
       releaseDate: song.release_date,
       duration: song.duration,
       label: song.label,
-      primaryArtists: song.primary_artists,
+      primary_artists: song.primary_artists,
       primaryArtistsId: song.primary_artists_id,
       explicitContent: song.explicit_content,
       playCount: song.play_count,
       language: song.language,
       hasLyrics: song.has_lyrics,
-      artist: song.primary_artists,
+      singers: song.primary_artists,
       image: Utils.createImageLinks(song.image),
       url: song.perma_url,
       copyright: song.copyright_text,
-      downloadUrl: Utils.createDownloadLinks(song.media_preview_url),
+      media_url: Utils.createDownloadLinks(song.media_preview_url),
     }
     return songPayload
   }
