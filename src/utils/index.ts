@@ -9,6 +9,9 @@ export class Utils {
 
     const qualities = [
       
+            { id: '_160', bitrate: '160kbps' },
+
+      
     ]
 
     return (
