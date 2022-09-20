@@ -1,7 +1,7 @@
 import { Utils } from '../utils'
 //import type { Song, SongSearch } from '../interfaces/song'
-import type { Album, AlbumSearch } from '../interfaces/album'
-import type { Playlist } from '../interfaces/playlist'
+//import type { Album, AlbumSearch } from '../interfaces/album'
+//import type { Playlist } from '../interfaces/playlist'
 
 export class GeneratePayload {
   public static songPayload = (song: Song) => {
