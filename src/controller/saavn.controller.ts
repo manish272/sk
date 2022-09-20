@@ -123,7 +123,7 @@ export class Controller {
 
       const songDetails = await SongService.songDetails(identifier)
 
-      res.json({results: songDetails })
+      res.json({songDetails })
     } catch (error) {
       next(error)
     }
