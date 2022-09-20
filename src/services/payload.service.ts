@@ -23,7 +23,7 @@ export class GeneratePayload {
       image: Utils.createImageLinks(song.image),
       url: song.perma_url,
       copyright: song.copyright_text,
-      downloadUrl: createDownloadLinks(song.media_preview_url),
+      downloadUrl: Utils.createDownloadLinks(song.media_preview_url),
     }
     return songPayload
   }
