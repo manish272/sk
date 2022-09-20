@@ -1,69 +1,102 @@
-import type { Request } from 'express'
+import { Utils } from '../utils'
+import type { Song, SongSearch } from '../interfaces/song'
+import type { Album, AlbumSearch } from '../interfaces/album'
+import type { Playlist } from '../interfaces/playlist'
 
-type IdentifierType = 'song' | 'album'
-
-export class Utils {
-  // create download links for different bitrates
-  public static createDownloadLinks = (link: string) => {
-    if (!link) return false
-
-    const qualities = [
-      { id: '_160', bitrate: '160kbps' },
-      ]
-
-    return (
-      qualities.map((quality) => ({
-        
-        link: link.replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p', '_160'),
-      })) || false
-    )
-  }
-
-  // create image links for different resolutions
-  public static createImageLinks = (link: string) => {
-    if (!link) return false
-
-    const qualities = ['50x50', '150x150', '500x500']
-
-    return (
-      qualities.map((quality) => ({
-        quality,
-        link: link.replace('150x150', quality),
-      })) || false
-    )
-  }
-
-  // capitalize first letter
-  private static sentenceCase = (text: string) => {
-    const firstLetter = text.slice(0, 1)
-    return firstLetter.toUpperCase() + text.slice(1)
-  }
-
-  // sanitize lyrics using sentence case
-  public static sanitizeLyrics = (lyrics: string) =>
-    lyrics
-      .replace(/"/gi, "'")
-      .replace(/ {2}/gi, ' ')
-      .split('<br>')
-      .map((text) => Utils.sentenceCase(text))
-      .join('<br>')
-
-  // create identifier object for checking if id or link is provided in query params
-  public static createIdentifier = (req: Request, identifierType: IdentifierType) => {
-    const { id, link } = req.query
-
-    const identifier = {
-      type: id ? 'id' : 'link',
-      value: (id as string) || Utils.extractIdFromLink(link as string, identifierType),
+export class GeneratePayload {
+  public static songPayload = (song: Song) => {
+    const songPayload = {
+      id: song.id,
+      name: song.song,
+      album: { id: song.albumid, name: song.album, url: song.album_url },
+      year: song.year,
+      releaseDate: song.release_date,
+      duration: song.duration,
+      label: song.label,
+      primaryArtists: song.primary_artists,
+      primaryArtistsId: song.primary_artists_id,
+      explicitContent: song.explicit_content,
+      playCount: song.play_count,
+      language: song.language,
+      hasLyrics: song.has_lyrics,
+      artist: song.primary_artists,
+      image: Utils.createImageLinks(song.image),
+      url: song.perma_url,
+      copyright: song.copyright_text,
+      downloadUrl: Utils.createDownloadLinks(song.media_preview_url),
     }
-    return identifier
+    return songPayload
   }
 
-  // extract token id from a song or album link
-  public static extractIdFromLink = (link: string, identifierType: IdentifierType): string => {
-    if (link.includes(`jiosaavn.com/${identifierType}/`)) {
-      return link.split(`${identifierType}/`)[1].split('/')[1].slice(0, 11)
+  public static songSearchPayload = (songs: SongSearch) => {
+    const payload = [] as unknown[]
+
+    songs.results.forEach((song: Song) => {
+      payload.push(GeneratePayload.songPayload(song))
+    })
+
+    return payload
+  }
+
+  public static albumPayload = (album: Album) => {
+    const songsArray = [] as Song[]
+
+    const albumPayload = {
+      id: album?.albumid || album?.id,
+      name: album.title,
+      year: album.year,
+      playCount: album.play_count,
+      language: album.language,
+      explicitContent: album.explicit_content,
+      songCount: album?.more_info?.song_count || album?.songs?.length,
+      primaryArtist: album.primary_artists || album.more_info?.artistMap?.primary_artists[0]?.name,
+      image: Utils.createImageLinks(album.image),
+      url: album.perma_url,
+      songs: [] as Song[],
     }
-    return ''
+
+    // if album details contain song list
+    if (album.songs) {
+      album.songs.forEach((song: Song) => songsArray.push(GeneratePayload.songPayload(song) as never))
+      albumPayload.songs = songsArray
+    }
+
+    return albumPayload
+  }
+
+  public static albumSearchPayload = (albums: AlbumSearch) => {
+    const payload = [] as unknown[]
+
+    albums.results.forEach((album: Album) => {
+      payload.push(GeneratePayload.albumPayload(album))
+    })
+
+    return payload
+  }
+
+  public static playlistPayload = (playlist: Playlist) => {
+    const songsArray = [] as Song[]
+
+    const playlistPayload = {
+      id: playlist.listid,
+      name: playlist.listname,
+      followerCount: playlist.follower_count,
+      songCount: playlist.list_count || playlist?.songs?.length,
+      fanCount: playlist.fan_count,
+      username: playlist.username,
+      firstname: playlist.firstname,
+      lastname: playlist.lastname,
+      image: Utils.createImageLinks(playlist.image),
+      url: playlist.perma_url,
+      songs: [] as Song[],
+    }
+
+    // if playlist details contain song list
+    if (playlist.songs) {
+      playlist.songs.forEach((song: Song) => songsArray.push(GeneratePayload.songPayload(song) as never))
+      playlistPayload.songs = songsArray
+    }
+
+    return playlistPayload
   }
 }
