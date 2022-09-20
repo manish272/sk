@@ -4,7 +4,7 @@ type IdentifierType = 'song' | 'album'
 
 export class Utils {
   // create download links for different bitrates
-  public static createDownloadLinks = {
+  public static createDownloadLinks = (link: string) => {
     if (!link) return false
 
     const qualities = [
@@ -14,7 +14,7 @@ export class Utils {
     return (
       qualities.map((quality) => ({
         
-        test: link.replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p', '_160'),
+        link: link.replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p', quality.id),
       })) || false
     )
   }
