@@ -18,7 +18,7 @@ export class SongService {
     // switch payload generator depending upon if multiple song ids are passed
     const payload =
       response?.data?.songs?.length > 1
-       // ? GeneratePayload.songSearchPayload({ results: response.data.songs })
+        ? GeneratePayload.songSearchPayload(response.data.songs)
         : GeneratePayload.songPayload(response.data.songs[0])
     return payload
   }
