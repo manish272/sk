@@ -3,7 +3,7 @@ import type { Song, SongSearch } from '../interfaces/song'
 import type { Album, AlbumSearch } from '../interfaces/album'
 import type { Playlist } from '../interfaces/playlist'
 
-
+export class GeneratePayload {
   public static songPayload = (song: Song) => {
     const songPayload = {
       id: song.id,
@@ -99,4 +99,4 @@ import type { Playlist } from '../interfaces/playlist'
 
     return playlistPayload
   }
-
+}
