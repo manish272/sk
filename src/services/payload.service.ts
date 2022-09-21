@@ -7,8 +7,8 @@ export class GeneratePayload {
   public static songPayload = (song: Song) => {
     const songPayload = {
       id: song.id,
-      name: song.song,
-      album: { id: song.albumid, name: song.album, url: song.album_url },
+      song: song.song,
+      album: song.album,
       year: song.year,
       releaseDate: song.release_date,
       duration: song.duration,
