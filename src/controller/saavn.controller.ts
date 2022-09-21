@@ -122,16 +122,8 @@ export class Controller {
       const identifier = Utils.createIdentifier(req, 'song')
 
       const songDetails = await SongService.songDetails(identifier)
-      
-      .then(async function(response) {
-      var data = JSON.parse(JSON.stringify(response.data).replace(/&amp;/gi, "&").replace(/&quot;/gi, "'").replace(/&copy;/gi, "©")).TempID
 
-      
-      res.json({( songDetails )})}
-      
-
-      
-      
+      res.json( songDetails )
     } catch (error) {
       next(error)
     }
