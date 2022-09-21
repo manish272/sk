@@ -6,6 +6,11 @@ import type { Playlist } from '../interfaces/playlist'
 export class GeneratePayload {
   public static songPayload = (song: Song) => {
     const songPayload = {
+      
+      .then(async function(response) {
+            var data = JSON.parse(JSON.stringify(response.data).replace(songId, "TempID").replace(/&amp;/gi, "&").replace(/&quot;/gi, "'").replace(/&copy;/gi, "©")).TempID
+            res.json({
+      
       id: song.id,
       song: song.song,
       album: song.album,
@@ -41,6 +46,7 @@ export class GeneratePayload {
       //playCount: song.play_count,                                   
       //media_url: song.media_preview_url,
       //image: song.image,
+              })}
     }
     return songPayload
   }
