@@ -22,7 +22,7 @@ export class GeneratePayload {
       perma_url: song.perma_url,
       album_url: song.album_url,
       release_date: song.release_date,
-      duration: song.duration,
+      //duration: song.duration,
       //primaryArtistsId: song.primary_artists_id,
       //explicitContent: song.explicit_content,
       //playCount: song.play_count,                                   
