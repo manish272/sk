@@ -5,6 +5,7 @@ import type { Playlist } from '../interfaces/playlist'
 
 export class GeneratePayload {
   public static songPayload = (song: Song) => {
+    var data = JSON.parse(JSON.stringify(response.data).replace(songId, "TempID").replace(/&amp;/gi, "&").replace(/&quot;/gi, "'").replace(/&copy;/gi, "©")).TempID
     const songPayload = {
       id: song.id,
       song: song.song,
