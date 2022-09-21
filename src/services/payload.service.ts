@@ -25,6 +25,7 @@ export class GeneratePayload {
       perma_url: song.perma_url,
       album_url: song.album_url,
       copyright: song.copyright_text,
+      media_url: song.media_preview_url.replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p', '_160'),
       media_url: song.media_preview_url,
       image: song.image,
     }
