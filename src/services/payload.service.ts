@@ -10,7 +10,7 @@ export class GeneratePayload {
       song: song.song,
       album: song.album,
       year: song.year,
-      releaseDate: song.release_date,
+      release_date: song.release_date,
       duration: song.duration,
       label: song.label,
       albumid: song.albumid,
@@ -19,12 +19,14 @@ export class GeneratePayload {
       explicitContent: song.explicit_content,
       playCount: song.play_count,
       language: song.language,
-      hasLyrics: song.has_lyrics,
+      copyright_text: song.label,
+      has_lyrics: song.has_lyrics,
       singers: song.primary_artists,
       image: Utils.createImageLinks(song.image),
-      url: song.perma_url,
+      perma_url: song.perma_url,
+      album_url: song.album_url
       copyright: song.copyright_text,
-      downloadUrl: Utils.createDownloadLinks(song.media_preview_url),
+      media_url: Utils.createDownloadLinks(song.media_preview_url),
     }
     return songPayload
   }
