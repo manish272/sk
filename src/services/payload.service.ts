@@ -23,7 +23,7 @@ export class GeneratePayload {
       has_lyrics: song.has_lyrics,
       singers: song.primary_artists,
       perma_url: song.perma_url,
-      album_url: song.album_url
+      album_url: song.album_url,
       copyright: song.copyright_text,
       media_url: song.media_preview_url,
       image: Utils.createImageLinks(song.image),
