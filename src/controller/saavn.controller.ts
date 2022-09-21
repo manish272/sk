@@ -128,9 +128,9 @@ export class Controller {
       
       
       res.json
-      ({
+      {
       ( songDetails )
-      })
+      }
       
     } catch (error) {
       next(error)
