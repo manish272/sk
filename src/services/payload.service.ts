@@ -13,6 +13,7 @@ export class GeneratePayload {
       releaseDate: song.release_date,
       duration: song.duration,
       label: song.label,
+      albumid: song.albumid.
       primary_artists: song.primary_artists,
       primaryArtistsId: song.primary_artists_id,
       explicitContent: song.explicit_content,
