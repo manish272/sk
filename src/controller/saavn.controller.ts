@@ -124,7 +124,7 @@ export class Controller {
       const songDetails = await SongService.songDetails(identifier)
       
       
-      var data = JSON.parse(JSON.stringify(songDetails).replace(/&amp;/gi, "&").replace(/&quot;/gi, "'").replace(/&copy;/gi, "©")).TempID
+    var data = JSON.parse(JSON.stringify(response.data).replace(/&amp;/gi, "&").replace(/&quot;/gi, "'").replace(/&copy;/gi, "©")).TempID
       
       
       res.json
