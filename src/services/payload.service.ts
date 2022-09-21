@@ -22,11 +22,11 @@ export class GeneratePayload {
       copyright_text: song.label,
       has_lyrics: song.has_lyrics,
       singers: song.primary_artists,
-      image: Utils.createImageLinks(song.image),
       perma_url: song.perma_url,
       album_url: song.album_url
       copyright: song.copyright_text,
       media_url: Utils.createDownloadLinks(song.media_preview_url),
+      image: Utils.createImageLinks(song.image),
     }
     return songPayload
   }
