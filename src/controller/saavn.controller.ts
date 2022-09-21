@@ -118,22 +118,26 @@ export class Controller {
 
   // get song details
   
-  .then(async function(response) {
-   var data = JSON.parse(JSON.stringify(response.data).replace(songId, "TempID").replace(/&amp;/gi, "&").replace(/&quot;/gi, "'").replace(/&copy;/gi, "©")).TempID
+  
   
   
   public static songDetails: RequestHandler = async (req, res, next) => {
     try {
+      .then(async function(response) {
+   var data = JSON.parse(JSON.stringify(response.data).replace(songId, "TempID").replace(/&amp;/gi, "&").replace(/&quot;/gi, "'").replace(/&copy;/gi, "©")).TempID
       const identifier = Utils.createIdentifier(req, 'song')
 
       const songDetails = await SongService.songDetails(identifier)
 
       res.json( songDetails )
-    } catch (error) {
+    } 
+    }
+    
+    catch (error) {
       next(error)
     }
   }
-  }
+ 
 
   // get lyrics
   public static lyrics: RequestHandler = async (req, res, next) => {
