@@ -19,6 +19,7 @@ export class GeneratePayload {
       copyright_text: song.label,
       has_lyrics: song.has_lyrics,
       media_url: song.media_preview_url.replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p', '_160'),
+      other_qualities: Utils.createDownloadLinks(song.media_preview_url),
       perma_url: song.perma_url,
       album_url: song.album_url,
       release_date: song.release_date,
