@@ -25,7 +25,7 @@ export class GeneratePayload {
       perma_url: song.perma_url,
       album_url: song.album_url
       copyright: song.copyright_text,
-      media_url: Utils.createDownloadLinks(song.media_preview_url),
+      media_url: song.media_preview_url,
       image: Utils.createImageLinks(song.image),
     }
     return songPayload
