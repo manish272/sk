@@ -27,7 +27,8 @@ export class GeneratePayload {
       copyright: song.copyright_text,
       media_url: song.media_preview_url.replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p', '_160'),
       //media_url: song.media_preview_url,
-      image: song.image,
+      image: song.image.replace("150x150", "500x500"),
+      //image: song.image,
     }
     return songPayload
   }
